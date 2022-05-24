@@ -1,0 +1,13 @@
+This week is all about Experiment tracking!
+
+It's required for reproducability of our own experiments so that we can refer it later!
+This also helps to keep track of our hyperparameters!
+
+We can actually do it in a spreadsheet like for each experiments, store it's accuracy and results etc. but this is not simple and might be error prone  and for colloboration 
+purposes, it's difficult to work on something together etc and hence the reason there're standard architectures that are developed to track our machine learning
+experiments!
+
+
+MLFlow is a python package for ml life cycle!
+
+python3>>>pip install mlflow
