@@ -112,9 +112,8 @@ def main(date=None):
 
     df_val = read_data(val_path)
     df_val_processed = prepare_features(df_val, categorical, False)
-
     # train the model
-    lr, dv = train_model(df_train_processed, categorical)
+    lr, dv = train_model(df_train_processed, categorical).result()
     run_model(df_val_processed, categorical, dv, lr)
     with open("models/model-"+date+".b", "wb") as f_out:
         pickle.dump(lr, f_out)
@@ -122,4 +121,22 @@ def main(date=None):
         pickle.dump(dv,dv_out)
     
 
-main(date="2021-08-15")
+#main(date="2021-08-15")
+
+
+
+from prefect.deployments import DeploymentSpec
+from prefect.orion.schemas.schedules import IntervalSchedule
+from prefect.flow_runners import SubprocessFlowRunner
+from prefect.orion.schemas.schedules import CronSchedule
+from datetime import timedelta
+
+DeploymentSpec(
+    flow=main,
+    name="model_training",
+    schedule=CronSchedule(cron=" 0 9 15 * *"),
+    flow_runner=SubprocessFlowRunner(),
+    tags=["homework 3"]
+)
+
+#schedule=CronSchedule(cron=" 0 9 15 * *")
